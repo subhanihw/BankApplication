@@ -3,8 +3,6 @@ package ApplicationRunner;
 import Bank.*;
 import Exceptions.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -15,7 +13,8 @@ public class Main {
         while (true) {
             System.out.println("\n1. Create a new Customer");
             System.out.println("2. Select a Customer");
-            System.out.println("3. Exit");
+            System.out.println("3. Delete a Customer");
+            System.out.println("4. Exit");
             System.out.print("Please select an option: ");
 
             int choice = scanner.nextInt();
@@ -39,8 +38,8 @@ public class Main {
                 case 2:
                     try {
                         System.out.print("Enter customer ID: ");
-                        int selectedCustomerId = scanner.nextInt();
-                        Customer selectedCustomer = bank.getCustomerById(selectedCustomerId);
+                        int customerID = scanner.nextInt();
+                        Customer selectedCustomer = bank.getCustomerById(customerID);
                         handleCustomerOperations(selectedCustomer, scanner);
                     }catch (CustomerNotFoundException ex) {
                         System.out.println(ex.getMessage());
@@ -49,6 +48,18 @@ public class Main {
                     }
                     break;
                 case 3:
+                    try {
+                        System.out.print("Enter customer ID: ");
+                        int customerID = scanner.nextInt();
+                        bank.deleteCustomer(customerID);
+                        System.out.printf("Customer with ID = %d deleted Successfully\n", customerID);
+                        bank.printNoOfCustomers();
+
+                    }catch (CustomerNotFoundException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                    break;
+                case 4:
                     System.out.println("Thank you for using the Banking Application. Goodbye!");
                     scanner.close();
                     System.exit(0);

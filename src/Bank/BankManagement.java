@@ -20,11 +20,21 @@ public class BankManagement {
     }
 
     public Customer getCustomerById(int customerId) throws CustomerNotFoundException {
-        for (Customer customer : customers) {
-            if (customer.getCustomerId() == customerId) {
-                return customer;
-            }
-        }
-        throw new CustomerNotFoundException("Customer with given ID Not Found.");
+        return customers.stream()
+                        .filter(customer -> customer.getCustomerId() == customerId)
+                        .findFirst()
+                        .orElseThrow(() -> new CustomerNotFoundException("Customer with given ID Not Found."));
+    }
+
+    public void deleteCustomer(int customerId) throws CustomerNotFoundException {
+        Customer existingCustomer = customers.stream()
+                .filter(customer -> customer.getCustomerId() == customerId)
+                .findFirst()
+                .orElseThrow(() -> new CustomerNotFoundException("Customer with given ID Not Found."));
+        customers.remove(existingCustomer);
+    }
+
+    public void printNoOfCustomers() {
+        System.out.println("Number of Customers: " + customers.size());
     }
 }
