@@ -1,4 +1,9 @@
 package Bank;
+import Exceptions.InsufficientBalanceException;
+import Exceptions.MinBalanceException;
+import Exceptions.RequiresPanException;
+
+import static Bank.Constants.*;
 
 public class Savings implements Account{
     private String accountNum;
@@ -17,7 +22,7 @@ public class Savings implements Account{
             throw new RequiresPanException("Requires Pan details to deposit more than 5000000");
         balance += amount;
         System.out.println("Deposited: $" + amount);
-        applyTransactionCharge(10.00);
+        applyTransactionCharge(TRANSACTION_CHARGE);
         System.out.println("Total Balance: "+balance);
     }
 
@@ -31,7 +36,7 @@ public class Savings implements Account{
         }
         balance -= amount;
         System.out.println("Withdrawn: $" + amount);
-        applyTransactionCharge(10.00);
+        applyTransactionCharge(TRANSACTION_CHARGE);
         System.out.println("Total Balance: "+balance);
     }
 

@@ -1,16 +1,66 @@
 package ApplicationRunner;
 
 import Bank.*;
+import Exceptions.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        Customer customer = new Customer(123, "Naruto");
+        BankManagement bank = new BankManagement();
         Scanner scanner = new Scanner(System.in);
-
         System.out.print("\nWelcome to the Yes Bee Eye Bank ");
-        System.out.println(customer.getName().toUpperCase());
+        while (true) {
+            System.out.println("\n1. Create a new Customer");
+            System.out.println("2. Select a Customer");
+            System.out.println("3. Exit");
+            System.out.print("Please select an option: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    try {
+                        System.out.print("Enter customer ID: ");
+                        int customerId = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.print("Enter customer name: ");
+                        String customerName = scanner.nextLine();
+                        Customer newCustomer = new Customer(customerId, customerName);
+                        bank.addCustomer(newCustomer);
+                        System.out.println("Customer created successfully.");
+                    }catch (CustomerAlreadyExists ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                    break;
+                case 2:
+                    try {
+                        System.out.print("Enter customer ID: ");
+                        int selectedCustomerId = scanner.nextInt();
+                        Customer selectedCustomer = bank.getCustomerById(selectedCustomerId);
+                        handleCustomerOperations(selectedCustomer, scanner);
+                    }catch (CustomerNotFoundException ex) {
+                        System.out.println(ex.getMessage());
+                    }catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    break;
+                case 3:
+                    System.out.println("Thank you for using the Banking Application. Goodbye!");
+                    scanner.close();
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid option. Please select a valid option.");
+            }
+        }
+    }
+
+    private static void handleCustomerOperations(Customer customer, Scanner scanner)
+    {
+        System.out.println("\n******* Welcome " + customer.getName().toUpperCase() + " *******");
         while (true) {
             System.out.println("\n1. Create a Savings Account");
             System.out.println("2. Create a Fixed Deposit Account");
@@ -104,7 +154,8 @@ public class Main {
                                 System.out.println("Invalid transaction type.");
                                 System.out.println("Current balance: $" + account.getBalance());
                         }
-                    }catch (AccountNotFoundException | MinBalanceException | InsufficientBalanceException | RequiresPanException ex) {
+                    }catch (AccountNotFoundException | MinBalanceException | InsufficientBalanceException |
+                            RequiresPanException ex) {
                         System.out.println(ex.getMessage());
                     } catch (Exception ex) {
                         ex.printStackTrace();

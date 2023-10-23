@@ -1,5 +1,9 @@
 package Bank;
 
+import Exceptions.InsufficientBalanceException;
+import Exceptions.MinBalanceException;
+import Exceptions.RequiresPanException;
+
 public interface Account
 {
     void deposit(double amount) throws RequiresPanException;
