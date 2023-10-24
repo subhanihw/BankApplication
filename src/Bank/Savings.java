@@ -3,27 +3,34 @@ import Exceptions.InsufficientBalanceException;
 import Exceptions.MinBalanceException;
 import Exceptions.RequiresPanException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static Bank.Constants.*;
 
 public class Savings implements Account{
     private String accountNum;
     private double balance;
     private double interestRate;
+    private List<Transaction> transactions;
 
     public Savings(String accountNumber, double balance, double interestRate) {
         this.accountNum = accountNumber;
         this.balance = balance;
         this.interestRate = interestRate;
+        transactions = new ArrayList<>();
     }
 
     @Override
     public void deposit(double amount) throws RequiresPanException {
         if (amount > 5000000)
             throw new RequiresPanException("Requires Pan details to deposit more than 5000000");
+        double initialBalance = balance;
         balance += amount;
         System.out.println("Deposited: $" + amount);
         applyTransactionCharge(TRANSACTION_CHARGE);
         System.out.println("Total Balance: "+balance);
+        transactions.add(new Transaction("Deposit", amount, TRANSACTION_CHARGE,initialBalance, balance));
     }
 
     @Override
@@ -34,10 +41,12 @@ public class Savings implements Account{
         if (balance - amount < 110) {
             throw new MinBalanceException("Balance must be greater than 100 after withdraw. Add Transaction Charge: $10");
         }
+        double initialBalance = balance;
         balance -= amount;
         System.out.println("Withdrawn: $" + amount);
         applyTransactionCharge(TRANSACTION_CHARGE);
         System.out.println("Total Balance: "+balance);
+        transactions.add(new Transaction("Withdraw", amount, TRANSACTION_CHARGE,initialBalance, balance));
     }
 
     @Override
@@ -50,6 +59,11 @@ public class Savings implements Account{
             temp += interest;
             System.out.printf("After Adding Interest balance will be $%.2f\n", temp);
         }
+    }
+
+    @Override
+    public void printAllTransactions() {
+        transactions.forEach(System.out::println);
     }
 
     @Override

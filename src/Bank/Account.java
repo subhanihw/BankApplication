@@ -10,6 +10,7 @@ public interface Account
     void withdraw(double amount) throws InsufficientBalanceException, MinBalanceException;
     void calculateInterest(int years);
     void applyTransactionCharge(double charge);
+    void printAllTransactions();
     double getBalance();
     String getAccountNumber();
     String getAccountType();

@@ -90,7 +90,8 @@ public class Main {
             System.out.println("3. Create a Current Account");
             System.out.println("4. Perform Transactions");
             System.out.println("5. List All Accounts");
-            System.out.println("6. Exit");
+            System.out.println("6. Display All transactions");
+            System.out.println("7. Exit");
             System.out.print("Please select an option: ");
 
             int choice = scanner.nextInt();
@@ -188,6 +189,16 @@ public class Main {
                     customer.ListAllAccounts();
                     break;
                 case 6:
+                    System.out.print("Enter Account Number: ");
+                    String accNum = scanner.next();
+                    try {
+                        Account account = customer.getAccount(accNum);
+                        account.printAllTransactions();
+                    }catch (AccountNotFoundException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                    break;
+                case 7:
                     System.out.println("Thank you for using the Banking Application. Goodbye!");
                     scanner.close();
                     System.exit(0);
