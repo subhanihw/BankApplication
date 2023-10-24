@@ -37,6 +37,10 @@ public class Customer {
         accountList.forEach(Customer::printAccountDetails);
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     private static void printAccountDetails(Account account) {
         System.out.println("Account Type: "+account.getAccountType());
         System.out.println("Account Number: "+ account.getAccountNumber());

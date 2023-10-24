@@ -34,6 +34,14 @@ public class BankManagement {
         customers.remove(existingCustomer);
     }
 
+    public void updateCustomer(int customerId, String name) throws CustomerNotFoundException {
+        Customer existingCustomer = customers.stream()
+                .filter(customer -> customer.getCustomerId() == customerId)
+                .findFirst()
+                .orElseThrow(() -> new CustomerNotFoundException("Customer with given ID Not Found."));
+        existingCustomer.setName(name);
+    }
+
     public void printNoOfCustomers() {
         System.out.println("Number of Customers: " + customers.size());
     }

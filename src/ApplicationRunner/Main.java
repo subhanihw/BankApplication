@@ -14,7 +14,8 @@ public class Main {
             System.out.println("\n1. Create a new Customer");
             System.out.println("2. Select a Customer");
             System.out.println("3. Delete a Customer");
-            System.out.println("4. Exit");
+            System.out.println("4. Update Customer Details");
+            System.out.println("5. Exit");
             System.out.print("Please select an option: ");
 
             int choice = scanner.nextInt();
@@ -39,8 +40,8 @@ public class Main {
                     try {
                         System.out.print("Enter customer ID: ");
                         int customerID = scanner.nextInt();
-                        Customer selectedCustomer = bank.getCustomerById(customerID);
-                        handleCustomerOperations(selectedCustomer, scanner);
+                        Customer customer = bank.getCustomerById(customerID);
+                        handleCustomerOperations(customer, scanner);
                     }catch (CustomerNotFoundException ex) {
                         System.out.println(ex.getMessage());
                     }catch (Exception ex) {
@@ -53,13 +54,24 @@ public class Main {
                         int customerID = scanner.nextInt();
                         bank.deleteCustomer(customerID);
                         System.out.printf("Customer with ID = %d deleted Successfully\n", customerID);
-                        bank.printNoOfCustomers();
-
                     }catch (CustomerNotFoundException ex) {
                         System.out.println(ex.getMessage());
                     }
                     break;
                 case 4:
+                    try {
+                        System.out.print("Enter customer ID: ");
+                        int customerID = scanner.nextInt();
+                        bank.getCustomerById(customerID);
+                        System.out.print("Enter updated name: ");
+                        scanner.nextLine();
+                        String name = scanner.nextLine();
+                        bank.updateCustomer(customerID, name);
+                    }catch (CustomerNotFoundException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                    break;
+                case 5:
                     System.out.println("Thank you for using the Banking Application. Goodbye!");
                     scanner.close();
                     System.exit(0);
