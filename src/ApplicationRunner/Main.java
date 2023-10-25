@@ -6,7 +6,7 @@ import Exceptions.*;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args){
         BankManagement bank = new BankManagement();
         Scanner scanner = new Scanner(System.in);
         System.out.print("\nWelcome to the Yes Bee Eye Bank ");
@@ -202,15 +202,15 @@ public class Main {
                     break;
                 case 7:
                     System.out.print("Enter Account Number: ");
-                    accNum = scanner.next();
+                    String accNumber = scanner.next();
                     try {
-                        Account account = customer.getAccount(accNum);
+                        Account account = customer.getAccount(accNumber);
                         System.out.println("Enter Type of the Transaction: ");
                         System.out.println("1. Deposit");
                         System.out.println("2. Withdraw");
                         System.out.print("Select a transaction type: ");
                         int transactionType = scanner.nextInt();
-                        String type = "";
+                        String type;
                         switch (transactionType) {
                             case 1:type = "deposit";System.out.println(account.getMaxTransactionAmount(type));break;
                             case 2:type = "withdraw";System.out.println(account.getMaxTransactionAmount(type));break;
@@ -223,15 +223,15 @@ public class Main {
                     break;
                 case 8:
                     System.out.print("Enter Account Number: ");
-                    accNum = scanner.next();
+                    String acNumber = scanner.next();
                     try {
-                        Account account = customer.getAccount(accNum);
+                        Account account = customer.getAccount(acNumber);
                         System.out.println("Enter Type of the Transaction: ");
                         System.out.println("1. Deposit");
                         System.out.println("2. Withdraw");
                         System.out.print("Select a transaction type: ");
                         int transactionType = scanner.nextInt();
-                        String type = "";
+                        String type;
                         switch (transactionType) {
                             case 1:type = "deposit";System.out.println(account.getMinTransactionAmount(type));break;
                             case 2:type = "withdraw";System.out.println(account.getMinTransactionAmount(type));break;
