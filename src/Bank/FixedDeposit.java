@@ -1,10 +1,10 @@
 package Bank;
 import Exceptions.InsufficientBalanceException;
 import Exceptions.MinBalanceException;
+import Exceptions.NoTransactionsException;
 import Exceptions.RequiresPanException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static Bank.Constants.*;
 
@@ -22,7 +22,9 @@ public class FixedDeposit implements Account{
     }
 
     @Override
-    public void deposit(double amount) throws RequiresPanException {
+    public void deposit(double amount) throws RequiresPanException, MinBalanceException {
+        if (amount <= 0)
+            throw new MinBalanceException("Amount must be greater than 0.");
         if (amount > 5000000)
             throw new RequiresPanException("Requires Pan details to deposit more than 5000000");
         double initialBalance = balance;
@@ -50,7 +52,9 @@ public class FixedDeposit implements Account{
     }
 
     @Override
-    public void printAllTransactions() {
+    public void printAllTransactions() throws NoTransactionsException {
+        if (transactions.isEmpty())
+            throw new NoTransactionsException("No Transactions were made with the current Account.");
         transactions.forEach(System.out::println);
     }
 
@@ -85,5 +89,25 @@ public class FixedDeposit implements Account{
     @Override
     public String getAccountType() {
         return "Fixed Deposit";
+    }
+
+    @Override
+    public Transaction getMaxTransactionAmount(String type) throws NoTransactionsException {
+        Optional<Transaction> maxTransaction = transactions.stream()
+                .filter(transaction -> transaction.getType().equalsIgnoreCase(type))
+                .max(Comparator.comparingDouble(Transaction::getAmount));
+        if (maxTransaction.isPresent())
+            return maxTransaction.get();
+        throw new NoTransactionsException("No Deposits were made with the current Account.");
+    }
+
+    @Override
+    public Transaction getMinTransactionAmount(String type) throws NoTransactionsException {
+        Optional<Transaction> minTransaction = transactions.stream()
+                .filter(transaction -> transaction.getType().equalsIgnoreCase(type))
+                .min(Comparator.comparingDouble(Transaction::getAmount));
+        if (minTransaction.isPresent())
+            return minTransaction.get();
+        throw new NoTransactionsException("No Withdrawals were made with the current Account.");
     }
 }

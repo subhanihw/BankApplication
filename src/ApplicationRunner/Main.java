@@ -91,7 +91,9 @@ public class Main {
             System.out.println("4. Perform Transactions");
             System.out.println("5. List All Accounts");
             System.out.println("6. Display All transactions");
-            System.out.println("7. Exit");
+            System.out.println("7. Get Max Transaction Amount");
+            System.out.println("8. Get Min Transaction Amount");
+            System.out.println("8. Exit");
             System.out.print("Please select an option: ");
 
             int choice = scanner.nextInt();
@@ -194,11 +196,53 @@ public class Main {
                     try {
                         Account account = customer.getAccount(accNum);
                         account.printAllTransactions();
-                    }catch (AccountNotFoundException ex) {
+                    }catch (AccountNotFoundException | NoTransactionsException ex) {
                         System.out.println(ex.getMessage());
                     }
                     break;
                 case 7:
+                    System.out.print("Enter Account Number: ");
+                    accNum = scanner.next();
+                    try {
+                        Account account = customer.getAccount(accNum);
+                        System.out.println("Enter Type of the Transaction: ");
+                        System.out.println("1. Deposit");
+                        System.out.println("2. Withdraw");
+                        System.out.print("Select a transaction type: ");
+                        int transactionType = scanner.nextInt();
+                        String type = "";
+                        switch (transactionType) {
+                            case 1:type = "deposit";System.out.println(account.getMaxTransactionAmount(type));break;
+                            case 2:type = "withdraw";System.out.println(account.getMaxTransactionAmount(type));break;
+                            default:
+                                System.out.println("Enter a valid option");
+                        }
+                    }catch (AccountNotFoundException | NoTransactionsException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                    break;
+                case 8:
+                    System.out.print("Enter Account Number: ");
+                    accNum = scanner.next();
+                    try {
+                        Account account = customer.getAccount(accNum);
+                        System.out.println("Enter Type of the Transaction: ");
+                        System.out.println("1. Deposit");
+                        System.out.println("2. Withdraw");
+                        System.out.print("Select a transaction type: ");
+                        int transactionType = scanner.nextInt();
+                        String type = "";
+                        switch (transactionType) {
+                            case 1:type = "deposit";System.out.println(account.getMinTransactionAmount(type));break;
+                            case 2:type = "withdraw";System.out.println(account.getMinTransactionAmount(type));break;
+                            default:
+                                System.out.println("Enter a valid option");
+                        }
+                    }catch (AccountNotFoundException | NoTransactionsException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                    break;
+                case 9:
                     System.out.println("Thank you for using the Banking Application. Goodbye!");
                     scanner.close();
                     System.exit(0);
